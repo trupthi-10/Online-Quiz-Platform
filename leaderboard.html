@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="leaderboard">
+  <h2>Leaderboard (Top 10)</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>User</th>
+        <th>Score</th>
+        <th>Total</th>
+        <th>Percent</th>
+        <th>When</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if top %}
+        {% for row in top %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ row['username'] }}</td>
+          <td>{{ row['score'] }}</td>
+          <td>{{ row['total'] }}</td>
+          <td>{{ (row['pct']*100)|round(2) }}%</td>
+          <td>{{ row['recorded_at'].replace('T',' ')[:19] }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr><td colspan="6">No scores yet.</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <h3>Your Recent Attempts</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Score</th>
+        <th>Total</th>
+        <th>Percent</th>
+        <th>When</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if attempts %}
+        {% for row in attempts %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ row['score'] }}</td>
+          <td>{{ row['total'] }}</td>
+          <td>{{ (row['pct']*100)|round(2) }}%</td>
+          <td>{{ row['recorded_at'].replace('T',' ')[:19] }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr><td colspan="5">No attempts yet. Take a quiz!</td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <div class="cta">
+    <a class="btn" href="{{ url_for('quiz') }}">Start Quiz</a>
+  </div>
+</div>
+{% endblock %}
